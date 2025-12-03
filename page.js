@@ -1,1 +1,0 @@
-export default function Home() { return (<main><h1>Ofertasia</h1></main>); }
