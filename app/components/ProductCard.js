@@ -1,23 +1,15 @@
-"use client";
-
 export default function ProductCard({ product }) {
   return (
-    <div
-      style={{
-        border: "1px solid #ddd",
-        borderRadius: "8px",
-        padding: "12px",
-        background: "white",
-      }}
-    >
-      <img
-        src={product.image}
-        alt={product.title}
-        style={{ width: "100%", borderRadius: "6px" }}
-      />
+    <div className="card">
+      <img src={product.image} alt={product.title} className="card-image" />
 
-      <h3>{product.title}</h3>
-      <p>R$ {product.price}</p>
+      <h3 className="card-title">{product.title}</h3>
+
+      <p className="card-price">R$ {product.price}</p>
+
+      <a href={product.url} target="_blank" className="card-link">
+        Ver oferta
+      </a>
     </div>
   );
 }
