@@ -1,28 +1,43 @@
-import Header from '../components/Header'
-import ProductCard from '../components/ProductCard'
+"use client";
 
-export default async function SearchPage({ searchParams }) {
-  const q = searchParams.q || ''
-  let produtos = []
-  if (q) {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL || ''}/api/aggregate_search?q=${encodeURIComponent(q)}`, { cache: 'no-store' })
-      const data = await res.json()
-      produtos = data.produtos || []
-    } catch (e) {
-      produtos = []
-    }
+import { useState } from "react";
+import ProductCard from "../components/ProductCard";
+
+export default function SearchPage() {
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState([]);
+
+  async function search() {
+    const res = await fetch(`/api/aggregate_search?q=${query}`);
+    const data = await res.json();
+    setResults(data.results || []);
   }
 
   return (
-    <div>
-      <Header />
-      <main style={{maxWidth:1100, margin:'28px auto', padding:'0 16px'}}>
-        <h1 style={{fontSize:20}}>Resultados para: <span style={{color:'var(--brand)'}}>{q}</span></h1>
-        <div style={{marginTop:12, display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(260px,1fr))', gap:18}}>
-          {produtos.length === 0 ? <div style={{padding:20}}>Nenhum resultado.</div> : produtos.map(p => <ProductCard key={p.id} p={p} />)}
-        </div>
-      </main>
+    <div style={{ padding: "20px" }}>
+      <h1>Buscar produtos</h1>
+
+      <input
+        value={query}
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Digite o nome do produto"
+        style={{ width: "250px", padding: "8px", marginRight: "10px" }}
+      />
+
+      <button onClick={search}>Buscar</button>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))",
+          gap: "15px",
+          marginTop: "20px",
+        }}
+      >
+        {results.map((p, i) => (
+          <ProductCard key={i} product={p} />
+        ))}
+      </div>
     </div>
-  )
+  );
 }
