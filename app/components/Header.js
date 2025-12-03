@@ -1,17 +1,15 @@
-"use client";
+import Link from "next/link";
 
 export default function Header() {
   return (
-    <header
-      style={{
-        padding: "15px",
-        background: "#1e40af",
-        color: "white",
-        fontSize: "20px",
-        fontWeight: "600",
-      }}
-    >
-      OfertasIA
+    <header className="header">
+      <Link href="/">
+        <h1 className="logo">OfertasIA</h1>
+      </Link>
+
+      <Link href="/search" className="search-button">
+        🔍 Buscar ofertas
+      </Link>
     </header>
   );
 }
