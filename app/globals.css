@@ -1,1 +1,6 @@
-body{margin:0;font-family:sans-serif;}
+body {
+  margin: 0;
+  padding: 0;
+  background: #f7fafc;
+  font-family: Inter, system-ui, sans-serif;
+}
