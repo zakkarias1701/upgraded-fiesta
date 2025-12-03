@@ -1,10 +1,21 @@
 // app/page.js
 
+function getBaseUrl() {
+  // Durante build, Vercel injeta essa variável automaticamente
+  if (process.env.VERCEL_URL) {
+    return `https://${process.env.VERCEL_URL}`;
+  }
+
+  // Ambiente local
+  return "http://localhost:3000";
+}
+
 async function fetchProducts() {
+  const baseUrl = getBaseUrl();
+
   try {
-    const res = await fetch(`/api/aggregate_search?q=promo`, {
-      // Permite revalidação (ISR) no Vercel
-      next: { revalidate: 15 },
+    const res = await fetch(`${baseUrl}/api/aggregate_search?q=promo`, {
+      cache: "no-store",
     });
 
     if (!res.ok) {
@@ -37,14 +48,6 @@ export default async function Home() {
           </li>
         ))}
       </ul>
-    </main>
-  );
-}
-
-        {products?.map((p, i) => (
-          <ProductCard key={i} product={p} />
-        ))}
-      </div>
     </main>
   );
 }
